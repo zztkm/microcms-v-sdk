@@ -28,6 +28,7 @@ struct BlogList {
 }
 
 fn main() {
+	// shell environment variables take precedence
 	vdotenv.load()
 
 	service_domain := os.getenv('SERVICE_DOMAIN')
@@ -37,33 +38,31 @@ fn main() {
 
 	url := 'https://$service_domain' + '.' + base_domain + '/api/$api_version/$endpoint'
 
-	println(url)
+	println("api url: $url")
 
-	custome_header_map := {
-		'X-MICROCMS-API-KEY': api_key,
-	}
-	header := http.new_custom_header_from_map(custome_header_map) or {
-		eprintln('new_custom_header_from_map error: $err')
-		return
-	}
-	fetch_config := http.FetchConfig {
-		url: url
+	mut req := http.Request {
 		method: .get
-		header: header
+		url: url
 	}
-	res := http.fetch(fetch_config) or {
-		eprintln('http.fetch error: $err')
+	req.add_custom_header('X-MICROCMS-API-KEY', api_key) or {
+		eprintln("req.add_custom_header error: $err")
 		return
 	}
 
-	println(res.status())
+	res := req.do() or {
+		eprintln('req.do error: $err')
+		return
+	}
+
+	println("res status: $res.status()")
 
 	blogs := json.decode(BlogList, res.body) or {
 		eprintln('failed to decode json, error: $err')
 		return
 	}
-	println(blogs.total_count)
+	println("total contents count: $blogs.total_count")
 
+	println("--- print contents title ---")
 	for content in blogs.contents {
 		println(content.title)
 	}
