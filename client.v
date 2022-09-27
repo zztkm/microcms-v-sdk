@@ -10,11 +10,11 @@ const (
 
 struct Client {
 	service_domain string
-	api_kay string
+	api_kay        string
 }
 
 pub fn new(service_domain string, api_kay string) Client {
-	client := Client {
+	client := Client{
 		service_domain: service_domain
 		api_kay: api_kay
 	}
@@ -22,15 +22,16 @@ pub fn new(service_domain string, api_kay string) Client {
 }
 
 fn (c Client) new_request(method http.Method, endpoint string, query urllib.Values) ?http.Request {
-	mut url := 'https://$c.service_domain' + '.' + base_domain + '/api/$api_version/$endpoint'
+	mut url := 'https://$c.service_domain' + '.' + microcms.base_domain +
+		'/api/$microcms.api_version/$endpoint'
 
 	if query.len > 0 {
-		url = url + "?" + query.encode()
-	} 
+		url = url + '?' + query.encode()
+	}
 
-	println("api url: $url")
+	println('api url: $url')
 
-	mut req := http.Request {
+	mut req := http.Request{
 		method: .get
 		url: url
 	}
@@ -38,7 +39,7 @@ fn (c Client) new_request(method http.Method, endpoint string, query urllib.Valu
 	return req
 }
 
-fn send_request(req http.Request) ?http.Response  {
+fn send_request(req http.Request) ?http.Response {
 	res := req.do()?
 
 	if res.status_code >= 400 {
@@ -46,4 +47,4 @@ fn send_request(req http.Request) ?http.Response  {
 	}
 
 	return res
-} 
+}

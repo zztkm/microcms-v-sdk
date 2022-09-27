@@ -5,26 +5,26 @@ import net.urllib
 
 pub struct GetContentListParams {
 pub mut:
-	endpoint  string
-	draft_key string
-	limit     int
-	offset    int
-	orders    []string
-	q         string
-	fields    []string
-	ids       []string
-	filters   string
-	depth     int
+	endpoint           string
+	draft_key          string
+	limit              int
+	offset             int
+	orders             []string
+	q                  string
+	fields             []string
+	ids                []string
+	filters            string
+	depth              int
 	rich_editor_format string
 }
 
 pub struct GetContentParams {
 pub mut:
-	endpoint   string
-	content_id string
-	draft_key  string
-	fields     []string
-	depth      int
+	endpoint           string
+	content_id         string
+	draft_key          string
+	fields             []string
+	depth              int
 	rich_editor_format string
 }
 
@@ -88,7 +88,7 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 	}
 	if len(p.rich_editor_format) > 0 {
 		v.add('richEditorFormat', v.rich_editor_format)
-	} 
+	}
 	return v
 }
 
@@ -105,7 +105,7 @@ fn make_get_query(p GetContentParams) urllib.Values {
 	}
 	if len(p.rich_editor_format) > 0 {
 		v.add('richEditorFormat', v.rich_editor_format)
-	} 
+	}
 	return v
 }
 
