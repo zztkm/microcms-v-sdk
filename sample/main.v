@@ -27,9 +27,7 @@ struct BlogList {
 	limit       int
 }
 
-fn main() {
-	// shell environment variables take precedence
-	vdotenv.load()
+fn list<T>() ?T {
 
 	service_domain := os.getenv('SERVICE_DOMAIN')
 	api_key := os.getenv('MICROCMS_API_KEY')
@@ -44,22 +42,26 @@ fn main() {
 		method: .get
 		url: url
 	}
-	req.add_custom_header('X-MICROCMS-API-KEY', api_key) or {
-		eprintln("req.add_custom_header error: $err")
+	req.add_custom_header('X-MICROCMS-API-KEY', api_key)?
+
+	res := req.do()?
+	println("status: $res.status_code.str()")
+	if res.status_code >= 400 {
+		return error(res.body)
+	}
+
+	return json.decode(T, res.body)
+}
+
+fn main() {
+	// shell environment variables take precedence
+	vdotenv.load()
+
+	blogs := list<BlogList>() or {
+		eprintln(err)
 		return
 	}
 
-	res := req.do() or {
-		eprintln('req.do error: $err')
-		return
-	}
-
-	println("res status: $res.status()")
-
-	blogs := json.decode(BlogList, res.body) or {
-		eprintln('failed to decode json, error: $err')
-		return
-	}
 	println("total contents count: $blogs.total_count")
 
 	println("--- print contents title ---")

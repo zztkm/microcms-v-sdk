@@ -1,5 +1,6 @@
 module microcms
 
+import json
 import net.urllib
 
 pub struct ListParams {
@@ -27,7 +28,7 @@ pub mut:
 
 fn make_list_query(p ListParams) urllib.Values {
 	mut v := urllib.new_values()
-	f len(p.draft_key) > 0 {
+	if len(p.draft_key) > 0 {
 		v.add("draftKey", p.draft_key)
 	}
 	if p.Limit != 0 {
@@ -57,6 +58,10 @@ fn make_list_query(p ListParams) urllib.Values {
 
 }
 
-pub fn (c Client) list<T>(p ListParams) {
+pub fn (c Client) list<T>(p ListParams) ?T {
+	req := new_request(.get, p.endpoint, make_list_query(p))?
+
+	res := send_request(req)?
 	
+	return json.decode(T, res.body)
 }
