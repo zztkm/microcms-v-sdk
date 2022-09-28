@@ -10,13 +10,13 @@ const (
 
 struct Client {
 	service_domain string
-	api_kay        string
+	api_key        string
 }
 
-pub fn new(service_domain string, api_kay string) Client {
+pub fn new(service_domain string, api_key string) Client {
 	client := Client{
 		service_domain: service_domain
-		api_kay: api_kay
+		api_key: api_key
 	}
 	return client
 }
