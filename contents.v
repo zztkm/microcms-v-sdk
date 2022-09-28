@@ -87,7 +87,7 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 		v.add('depth', p.depth.str())
 	}
 	if p.rich_editor_format.len_utf8() > 0 {
-		v.add('richEditorFormat', v.rich_editor_format)
+		v.add('richEditorFormat', p.rich_editor_format)
 	}
 	return v
 }
@@ -104,13 +104,13 @@ fn make_get_query(p GetContentParams) urllib.Values {
 		v.add('depth', p.depth.str())
 	}
 	if p.rich_editor_format.len_utf8() > 0 {
-		v.add('richEditorFormat', v.rich_editor_format)
+		v.add('richEditorFormat', p.rich_editor_format)
 	}
 	return v
 }
 
 pub fn (c Client) content_list<T>(p GetContentListParams) ?T {
-	req := new_request(.get, p.endpoint, make_list_query(p))?
+	req := c.new_request(.get, p.endpoint, make_list_query(p))?
 
 	res := send_request(req)?
 
@@ -118,7 +118,7 @@ pub fn (c Client) content_list<T>(p GetContentListParams) ?T {
 }
 
 pub fn (c Client) content<T>(p GetContentParams) ?T {
-	req := new_request(.get, p.endpoint, make_get_query(p))?
+	req := c.new_request(.get, p.endpoint, make_get_query(p))?
 
 	res := send_request(req)?
 
