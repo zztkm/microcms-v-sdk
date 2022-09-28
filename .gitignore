@@ -8,3 +8,4 @@ microcms-v-sdk
 *.dll
 vls.log
 .env
+dist
