@@ -77,7 +77,7 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 	if p.fields.len > 0 {
 		v.add('fields', p.fields.join(','))
 	}
-	if p.IDs.len > 0 {
+	if p.ids.len > 0 {
 		v.add('ids', p.ids.join(','))
 	}
 	if p.filters.len > 0 {
