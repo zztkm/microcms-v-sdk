@@ -59,34 +59,34 @@ pub:
 
 fn make_list_query(p GetContentListParams) urllib.Values {
 	mut v := urllib.new_values()
-	if p.draft_key.len_utf8() > 0 {
+	if p.draft_key.len > 0 {
 		v.add('draftKey', p.draft_key)
 	}
-	if p.Limit != 0 {
-		v.add('limit', p.Limit.str())
+	if p.limit != 0 {
+		v.add('limit', p.limit.str())
 	}
 	if p.offset != 0 {
 		v.add('offset', p.offset.str())
 	}
-	if len(p.orders) > 0 {
+	if p.orders.len > 0 {
 		v.add('orders', p.orders.join(','))
 	}
-	if p.q.len_utf8() > 0 {
+	if p.q.len > 0 {
 		v.add('q', p.q)
 	}
-	if len(p.fields) > 0 {
+	if p.fields.len > 0 {
 		v.add('fields', p.fields.join(','))
 	}
-	if len(p.IDs) > 0 {
+	if p.IDs.len > 0 {
 		v.add('ids', p.ids.join(','))
 	}
-	if p.filters.len_utf8() > 0 {
+	if p.filters.len > 0 {
 		v.add('filters', p.filters)
 	}
 	if p.depth != 0 {
 		v.add('depth', p.depth.str())
 	}
-	if p.rich_editor_format.len_utf8() > 0 {
+	if p.rich_editor_format.len > 0 {
 		v.add('richEditorFormat', p.rich_editor_format)
 	}
 	return v
@@ -94,16 +94,16 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 
 fn make_get_query(p GetContentParams) urllib.Values {
 	mut v := urllib.new_values()
-	if p.draft_key.len_utf8() > 0 {
+	if p.draft_key.len > 0 {
 		v.add('draftKey', p.draft_key)
 	}
-	if len(p.fields) > 0 {
+	if p.fields.len > 0 {
 		v.add('fields', p.fields.join(','))
 	}
 	if p.depth != 0 {
 		v.add('depth', p.depth.str())
 	}
-	if p.rich_editor_format.len_utf8() > 0 {
+	if p.rich_editor_format.len > 0 {
 		v.add('richEditorFormat', p.rich_editor_format)
 	}
 	return v
