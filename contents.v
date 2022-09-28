@@ -59,7 +59,7 @@ pub:
 
 fn make_list_query(p GetContentListParams) urllib.Values {
 	mut v := urllib.new_values()
-	if len(p.draft_key) > 0 {
+	if p.draft_key.len_utf8() > 0 {
 		v.add('draftKey', p.draft_key)
 	}
 	if p.Limit != 0 {
@@ -71,7 +71,7 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 	if len(p.orders) > 0 {
 		v.add('orders', p.orders.join(','))
 	}
-	if len(p.q) > 0 {
+	if p.q.len_utf8() > 0 {
 		v.add('q', p.q)
 	}
 	if len(p.fields) > 0 {
@@ -80,13 +80,13 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 	if len(p.IDs) > 0 {
 		v.add('ids', p.ids.join(','))
 	}
-	if len(p.filters) > 0 {
+	if p.filters.len_utf8() > 0 {
 		v.add('filters', p.filters)
 	}
 	if p.depth != 0 {
 		v.add('depth', p.depth.str())
 	}
-	if len(p.rich_editor_format) > 0 {
+	if p.rich_editor_format.len_utf8() > 0 {
 		v.add('richEditorFormat', v.rich_editor_format)
 	}
 	return v
@@ -94,7 +94,7 @@ fn make_list_query(p GetContentListParams) urllib.Values {
 
 fn make_get_query(p GetContentParams) urllib.Values {
 	mut v := urllib.new_values()
-	if len(p.draft_key) > 0 {
+	if p.draft_key.len_utf8() > 0 {
 		v.add('draftKey', p.draft_key)
 	}
 	if len(p.fields) > 0 {
@@ -103,7 +103,7 @@ fn make_get_query(p GetContentParams) urllib.Values {
 	if p.depth != 0 {
 		v.add('depth', p.depth.str())
 	}
-	if len(p.rich_editor_format) > 0 {
+	if p.rich_editor_format.len_utf8() > 0 {
 		v.add('richEditorFormat', v.rich_editor_format)
 	}
 	return v
