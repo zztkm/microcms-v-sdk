@@ -29,8 +29,6 @@ fn (c Client) new_request(method http.Method, endpoint string, query urllib.Valu
 		url = url + '?' + query.encode()
 	}
 
-	println('api url: $url')
-
 	mut req := http.Request{
 		method: .get
 		url: url
