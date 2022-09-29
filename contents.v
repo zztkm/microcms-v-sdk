@@ -118,7 +118,7 @@ pub fn (c Client) content_list<T>(p GetContentListParams) ?T {
 }
 
 pub fn (c Client) content<T>(p GetContentParams) ?T {
-	req := c.new_request(.get, p.endpoint, make_get_query(p))?
+	req := c.new_request(.get, "$p.endpoint/$p.content_id", make_get_query(p))?
 
 	res := send_request(req)?
 
