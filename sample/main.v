@@ -39,9 +39,21 @@ fn main() {
 	}
 
 	println('total contents count: $blogs.total_count')
-
-	println('--- print contents title ---')
+	println('--- print content_list title ---')
+	mut ids := []string{}
 	for content in blogs.contents {
-		println(content.title)
+		println("$content.id: $content.title")
+		ids << content.id
 	}
+
+	println('--- print content title ---')
+	for id in ids {
+		get_param := microcms.GetContentParams {
+			endpoint: 'blogs'
+			content_id: id
+		}
+		content := c.content<Content>(get_param)?
+		println("$content.id: $content.title")
+	}
+	println("end")
 }
