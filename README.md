@@ -27,10 +27,10 @@ TODO: 使い方をがんばって記載する
 Content API
 - [x] [GET /api/v1/{endpoint}](https://document.microcms.io/content-api/get-list-contents)
 - [x] [GET /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/get-content)
-- [ ] [POST /api/v1/{endpoint}](https://document.microcms.io/content-api/post-content)
-- [ ] [PUT /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/put-content)
-- [ ] [PATCH /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/patch-content)
-- [ ] [DELETE /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/delete-content)
+- [x] [POST /api/v1/{endpoint}](https://document.microcms.io/content-api/post-content)
+- [x] [PUT /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/put-content)
+- [x] [PATCH /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/patch-content)
+- [x] [DELETE /api/v1/{endpoint}/{content_id}](https://document.microcms.io/content-api/delete-content)
 
 Management API
 - [ ] [GET /api/v1/contents/{endpoint}](https://document.microcms.io/management-api/get-list-contents-management)

@@ -13,6 +13,7 @@ struct Client {
 	api_key        string
 }
 
+// new returns a new microcms client.
 pub fn new(service_domain string, api_key string) Client {
 	client := Client{
 		service_domain: service_domain

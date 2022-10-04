@@ -2,7 +2,9 @@ module microcms
 
 import json
 import net.urllib
+import net.http
 
+// GetContentListParams holds information for retrieve the content list.
 pub struct GetContentListParams {
 pub mut:
 	endpoint           string
@@ -18,6 +20,7 @@ pub mut:
 	rich_editor_format string
 }
 
+// GetContentParams holds information for retrieve a single content.
 pub struct GetContentParams {
 pub mut:
 	endpoint           string
@@ -28,6 +31,8 @@ pub mut:
 	rich_editor_format string
 }
 
+// CreateParams holds information for creating content.
+// Note: It does not hold the content itself.
 pub struct CreateParams {
 pub mut:
 	endpoint   string
@@ -35,23 +40,30 @@ pub mut:
 	status     string
 }
 
+// UpdateParams holds information for updating content.
+// Note: It does not hold the content itself.
 pub struct UpdateParams {
 pub mut:
 	endpoint   string
 	content_id string
 }
 
+// DeleteParams holds information for deleting content.
 pub struct DeleteParams {
 pub mut:
 	endpoint   string
 	content_id string
 }
 
+// CreateResponse holds the response body
+// of a successful microCMS content creation.
 pub struct CreateResponse {
 pub:
 	id string
 }
 
+// UpdateResponse holds the response body
+// of a successful microCMS content update.
 pub struct UpdateResponse {
 pub:
 	id string
@@ -109,6 +121,8 @@ fn make_get_query(p GetContentParams) urllib.Values {
 	return v
 }
 
+// content_list is a method to retrieve a content list.
+// The retrieved content is stored in the type parameter T and returned.
 pub fn (c Client) content_list<T>(p GetContentListParams) ?T {
 	req := c.new_request(.get, p.endpoint, make_list_query(p))?
 
@@ -117,16 +131,53 @@ pub fn (c Client) content_list<T>(p GetContentListParams) ?T {
 	return json.decode(T, res.body)
 }
 
+// content is a method to retrieve a single content.
+// The retrieved content is stored in the type parameter T and returned.
 pub fn (c Client) content<T>(p GetContentParams) ?T {
-	req := c.new_request(.get, "$p.endpoint/$p.content_id", make_get_query(p))?
+	req := c.new_request(.get, '$p.endpoint/$p.content_id', make_get_query(p))?
 
 	res := send_request(req)?
 
 	return json.decode(T, res.body)
 }
 
-pub fn (c Client) create_content<T>(p CreateParams, data T) ?CreateResponse {}
+fn make_create_query(p CreateParams) urllib.Values {
+	mut v := urllib.new_values()
+	if p.status.len > 0 {
+		v.add('status', p.status)
+	}
+	return v
+}
 
-pub fn (c Client) update_content<T>(p UpdateParams, data T) ?UpdateResponse {}
+// create_content is a method to create content.
+// It sends an http request with data as the body.
+pub fn (c Client) create_content<T>(p CreateParams, data T) ?CreateResponse {
+	mut req := http.Request{}
+	query := make_create_query(p)
+	content := json.encode(data)
+	if p.content_id.len > 0 {
+		req = c.new_request(.put, '$p.endpoint/$p.content_id', query)?
+	} else {
+		req = c.new_request(.post, p.endpoint, query)?
+	}
+	req.data = content
+	res := send_request(req)?
+	return json.decode(CreateResponse, res.body)
+}
 
-pub fn (c Client) delete_content(p DeleteParams) ? {}
+// update_content is a method to update content.
+// It sends an http request with data as the body.
+pub fn (c Client) update_content<T>(p UpdateParams, data T) ?UpdateResponse {
+	req := c.new_request(.patch, '$p.endpoint/$p.content_id', urllib.Values{})?
+	content := json.encode(data)
+	req.data = content
+	res := send_request(req)?
+	return json.decode(UpdateResponse, res.body)
+}
+
+// delete_content is a method to delete content.
+pub fn (c Client) delete_content(p DeleteParams) ? {
+	req := c.new_request(.delete, '$p.endpoint/$p.content_id', urllib.Values{})?
+	res := send_request(req)?
+	return
+}
