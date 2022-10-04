@@ -22,6 +22,13 @@ import zztkm.microcms
 
 TODO: 使い方をがんばって記載する
 
+NOTE
+
+Until the following bugs are fixed, please be careful with structure definitions during create and update.
+Zero values are also included in Body.
+- `[omitempty]` for strings causes compilation error
+	- https://github.com/vlang/v/issues/12570
+
 ## APIs
 
 Content API
