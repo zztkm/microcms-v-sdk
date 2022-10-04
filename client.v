@@ -8,6 +8,8 @@ const (
 	api_version = 'v1'
 )
 
+const use_json_method = ['POST', 'PUT', 'PATCH']
+
 struct Client {
 	service_domain string
 	api_key        string
@@ -33,6 +35,10 @@ fn (c Client) new_request(method http.Method, endpoint string, query urllib.Valu
 	mut req := http.Request{
 		method: .get
 		url: url
+	}
+
+	if method.str() in microcms.use_json_method {
+		req.add_header(.content_type, 'application/json')
 	}
 	req.add_custom_header('X-MICROCMS-API-KEY', c.api_key)?
 	return req
