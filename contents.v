@@ -168,7 +168,7 @@ pub fn (c Client) create_content<T>(p CreateParams, data T) ?CreateResponse {
 // update_content is a method to update content.
 // It sends an http request with data as the body.
 pub fn (c Client) update_content<T>(p UpdateParams, data T) ?UpdateResponse {
-	req := c.new_request(.patch, '$p.endpoint/$p.content_id', urllib.Values{})?
+	mut req := c.new_request(.patch, '$p.endpoint/$p.content_id', urllib.Values{})?
 	content := json.encode(data)
 	req.data = content
 	res := send_request(req)?
@@ -178,6 +178,6 @@ pub fn (c Client) update_content<T>(p UpdateParams, data T) ?UpdateResponse {
 // delete_content is a method to delete content.
 pub fn (c Client) delete_content(p DeleteParams) ? {
 	req := c.new_request(.delete, '$p.endpoint/$p.content_id', urllib.Values{})?
-	res := send_request(req)?
+	send_request(req)?
 	return
 }
