@@ -155,6 +155,7 @@ pub fn (c Client) create_content<T>(p CreateParams, data T) ?CreateResponse {
 	mut req := http.Request{}
 	query := make_create_query(p)
 	content := json.encode(data)
+	println(content)
 	if p.content_id.len > 0 {
 		req = c.new_request(.put, '$p.endpoint/$p.content_id', query)?
 	} else {
