@@ -2,6 +2,8 @@
 
 [microCMS](https://microcms.io/) sdk for v language.
 
+repo: https://github.com/zztkm/microcms-v-sdk
+
 ## Installation and Import
 
 ### Using vpm
@@ -16,6 +18,12 @@ Import
 
 ```v
 import zztkm.microcms
+```
+
+### Directly from GitHub
+
+```shell
+v install --git https://github.com/zztkm/microcms-v-sdk
 ```
 
 ## Usage
