@@ -125,20 +125,32 @@ fn make_get_query(p GetContentParams) urllib.Values {
 // The retrieved content is stored in the type parameter T and returned.
 pub fn (c Client) content_list<T>(p GetContentListParams) ?T {
 	req := c.new_request(.get, p.endpoint, make_list_query(p))?
-
 	res := send_request(req)?
-
 	return json.decode(T, res.body)
+}
+
+// content_list is a method to retrieve a content list.
+// If you want to decode your own, use this one.
+pub fn (c Client) content_list_str(p GetContentListParams) ?string {
+	req := c.new_request(.get, p.endpoint, make_list_query(p))?
+	res := send_request(req)?
+	return res.body
 }
 
 // content is a method to retrieve a single content.
 // The retrieved content is stored in the type parameter T and returned.
 pub fn (c Client) content<T>(p GetContentParams) ?T {
 	req := c.new_request(.get, '$p.endpoint/$p.content_id', make_get_query(p))?
-
 	res := send_request(req)?
-
 	return json.decode(T, res.body)
+}
+
+// content_str is a method to retrieve a single content.
+// If you want to decode your own, use this one.
+pub fn (c Client) content_str(p GetContentParams) ?string {
+	req := c.new_request(.get, '$p.endpoint/$p.content_id', make_get_query(p))?
+	res := send_request(req)?
+	return res.body
 }
 
 fn make_create_query(p CreateParams) urllib.Values {
